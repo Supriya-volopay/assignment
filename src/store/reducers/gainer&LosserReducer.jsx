@@ -48,13 +48,12 @@ export const fetchGainerLooserAPI = createAsyncThunk(
         dispatch(setLoser(mockData.top_losers));
       } else {
         const response = await GainerLooserAPI.get("");
-        console.log(response);
         dispatch(setMetadata(response?.data?.metadata));
         dispatch(setGainer(response?.data?.top_gainers));
         dispatch(setLoser(response?.data?.top_losers));
       }
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.log("Error fetching data:", error);
       throw error;
     }
   }

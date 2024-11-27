@@ -34,7 +34,7 @@ const IncomeStatementSlice = createSlice({
 });
 
 export const fetchIncomeStatementAPI = createAsyncThunk(
-  "fetchCompanyOverviewAPI",
+  "fetchIncomeStatementAPI",
   async ({ param }, { dispatch }) => {
     try {
       if (isMockEnable) {

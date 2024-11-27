@@ -2,6 +2,7 @@ import axios from "axios";
 
 const apiKey = import.meta.env.VITE_API_KEY;
 const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl2 = import.meta.env.VITE_API_URL2;
 
 // pass the baseURL as an object
 export const GainerLooserAPI = axios.create({
@@ -19,12 +20,34 @@ export const fetchCompanyOverview = (symbol) => {
   });
 };
 
-export const fetchIncomeStatement= (symbol) => {
+export const fetchIncomeStatement = (symbol) => {
   return axios.get(`${apiUrl}/query`, {
     params: {
       function: "INCOME_STATEMENT",
       symbol,
       apikey: apiKey,
+    },
+  });
+};
+
+export const fetchProducts = (skip, limit) => {
+  return axios.get(`${apiUrl2}/products`, {
+    params: {
+      limit: limit,
+      skip: skip,
+    },
+  });
+};
+
+export const fetchCategories = () => {
+  return axios.get(`${apiUrl2}/products/categories`);
+};
+
+export const fetchCategoriesProduct = (category, skip, limit) => {
+  return axios.get(`${apiUrl2}/products/category/${category}`, {
+    params: {
+      limit: limit,
+      skip: skip,
     },
   });
 };
