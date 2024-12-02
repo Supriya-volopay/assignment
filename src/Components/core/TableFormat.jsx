@@ -1,12 +1,29 @@
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Modal from "./Modal";
 
-const FormateTable = ({ tableName, headerContent, headers, state, click }) => {
+const FormateTable = ({
+  tableName,
+  headers,
+  state,
+  isClickable,
+  isAction,
+  action,
+  onSave,
+}) => {
   const navigate = useNavigate();
 
   const handleRowClick = (row) => {
-    if (click) {
+    if (isClickable) {
       navigate(`/company/${row?.ticker}`);
     }
+  };
+
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedRow, setSelectedRow] = useState();
+
+  const handleSave = (data) => {
+    onSave(data);
   };
 
   return (
@@ -16,14 +33,19 @@ const FormateTable = ({ tableName, headerContent, headers, state, click }) => {
         <table className="w-5/6 border-collapse border border-gray-400">
           <thead>
             <tr>
-              {headerContent?.map((header, index) => (
+              {headers?.map((header, index) => (
                 <th
                   key={index}
                   className="border border-gray-400 px-4 py-2 bg-white text-left font-medium text-gray-800"
                 >
-                  {header}
+                  {header?.name}
                 </th>
               ))}
+              {isAction && (
+                <th className="border border-gray-400 px-4 py-2 bg-white text-left font-medium text-gray-800">
+                  Action
+                </th>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -39,9 +61,33 @@ const FormateTable = ({ tableName, headerContent, headers, state, click }) => {
                     key={colIndex}
                     className="border border-gray-400 px-4 py-2 text-left text-gray-800"
                   >
-                    {row[header]}
+                    {row[header?.slug]}
                   </td>
                 ))}
+                {isAction && (
+                  <td className="border border-gray-400 px-4 py-2 text-left text-gray-800">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedRow(row);
+                        setModalOpen(true);
+                      }}
+                      className="px-3 py-1 text-base text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+                    >
+                      {action}
+                    </button>
+                    {isModalOpen && selectedRow?.id === row?.id && (
+                      <Modal
+                        isOpen={isModalOpen}
+                        onClose={() => setModalOpen(false)}
+                        onSave={handleSave}
+                        topic="Update Product"
+                        field={headers}
+                        fieldData={selectedRow}
+                      />
+                    )}
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>

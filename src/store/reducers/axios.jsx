@@ -51,3 +51,11 @@ export const fetchCategoriesProduct = (category, skip, limit) => {
     },
   });
 };
+
+export const updateProductAPI = (id, payload) => {
+  return axios.put(`${apiUrl2}/products/${id}`, payload);
+};
+
+export const addProductAPI = (payload) => {
+  return axios.post(`${apiUrl2}/products/add`, payload);
+};

@@ -36,3 +36,7 @@ export const selectedCategorySelector = createSelector(
   productsStore,
   (products) => products.selectedCategory
 );
+export const newProductSelector = createSelector(
+  productsStore,
+  (products) => products.newProduct
+);

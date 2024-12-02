@@ -9,25 +9,17 @@ import {
   gainerSelector,
   loserSelector,
 } from "../store/selectors/gainAndLosersSelector";
-import { selectedCategorySelector } from "../store/selectors/productsSelector";
 import { useNavigate } from "react-router-dom";
 
-const Table = () => {
-  const headerContent = [
-    "Ticker",
-    "Price",
-    "Change Amount",
-    "Change Percentage",
-    "Volume",
-  ];
-  const headers = [
-    "ticker",
-    "price",
-    "change_amount",
-    "change_percentage",
-    "volume",
-  ];
+const headers = [
+  { name: "Ticker", slug: "ticker" },
+  { name: "Price", slug: "price" },
+  { name: "Change Amount", slug: "change_amount" },
+  { name: "Change Percentage", slug: "change_percentage" },
+  { name: "Volume", slug: "volume" },
+];
 
+const Table = () => {
   const dispatch = useDispatch();
 
   const metadata = useSelector(metadataSelector);
@@ -35,7 +27,6 @@ const Table = () => {
   const loserData = useSelector(loserSelector);
   const isLoading = useSelector(gainerAndLoserLoadingSelector);
   const isError = useSelector(gainerAndLoserErrorSelector);
-  const category = useSelector(selectedCategorySelector);
 
   useEffect(() => {
     dispatch(fetchGainerLooserAPI());
@@ -65,17 +56,17 @@ const Table = () => {
         </div>
         <FormateTable
           tableName="Top Gainer"
-          headerContent={headerContent}
           headers={headers}
           state={gainerData}
-          click={true}
+          isClickable={true}
+          isAction={false}
         />
         <FormateTable
           tableName="Top Loser"
-          headerContent={headerContent}
           headers={headers}
           state={loserData}
-          click={true}
+          isClickable={true}
+          isAction={false}
         />
       </>
     );
